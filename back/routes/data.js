@@ -12,7 +12,7 @@ year.find({},function(err, docs){
     dataObj.yearData = docs;
 });
 
-router.post('/', function(req, res, next){
+router.get('/', function(req, res, next){
   res.send(dataObj);
 });
 
