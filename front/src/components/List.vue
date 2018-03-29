@@ -1,5 +1,5 @@
 <template>
-  <div class="listWrap">
+  <div class="listWrap" v-bind="setData">
     <div class="btnArea">
       <button type="button" class="btnYear" v-for="year in portFolioData.yearData" :data-yearID="year.yearID" :class="[year.yearID === isYear ? activeClass : '' ]" @click="handleClick">{{year.year}}</button>
     </div>
@@ -27,10 +27,10 @@ export default {
   },
 
   created(){
-   this.setData();
+  //  this.setData();
   },
 
-  methods: {
+  computed: {
     setData(){
       this.$http.get('/api/data').then((result) => {
         this.portFolioData = result.data;
@@ -38,12 +38,10 @@ export default {
           this.viewInit();
         });
       });
-    },
+    }
+  },
 
-    computed:{
-      
-    },
-
+  methods: {
     viewInit(){
       var $view = $(".view");
       var $btnYear = $(".btnYear");
@@ -73,7 +71,17 @@ export default {
     },
 
     handleClick(e){
-      
+      var btnID = parseInt($(e.target).attr("data-yearID"));
+      var data = this.portFolioData.data;
+      var arr = [];
+      for(var i=0; i< data.length; i++){
+        if(data[i].yearID === btnID){
+          arr.push(data[i])
+        }
+      }
+      this.portFolioData.data = arr;
+      this.viewInit();
+      console.log(this.portFolioData.data)
     }
   },
 
