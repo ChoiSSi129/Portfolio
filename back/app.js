@@ -11,6 +11,10 @@ var data = require('./routes/data');
 
 var app = express();
 
+// view engine setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
+
 mongoose.connect('mongodb://localhost:27017/Portfolio');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

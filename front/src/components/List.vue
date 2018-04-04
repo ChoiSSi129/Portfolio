@@ -1,10 +1,10 @@
 <template>
-  <div class="listWrap" v-bind="setData">
+  <div class="listWrap" v-bind="setComputedData">
     <div class="btnArea">
-      <button type="button" class="btnYear" v-for="year in portFolioData.yearData" :data-yearID="year.yearID" :class="[year.yearID === isYear ? activeClass : '' ]" @click="handleClick">{{year.year}}</button>
+      <button type="button" class="btnYear" v-for="year in getData().yearData" :data-yearID="year.yearID" :class="[year.yearID === isYear ? activeClass : '' ]" @click="handleClick">{{year.year}}</button>
     </div>
     <div class="projectList">
-      <div class="view" v-for="data in portFolioData.data">
+      <div class="view" v-for="data in getData().data">
         <p class="tit">{{data.title}}</p>
         <p class="txt">{{data.text}}</p>
         <div class="btnWrap">
@@ -26,14 +26,10 @@ export default {
     }
   },
 
-  created(){
-  //  this.setData();
-  },
-
   computed: {
-    setData(){
+    setComputedData(){
       this.$http.get('/api/data').then((result) => {
-        this.portFolioData = result.data;
+        this.setData(result.data);
         $(() => {
           this.viewInit();
         });
@@ -42,6 +38,14 @@ export default {
   },
 
   methods: {
+    setData(data){
+      this.portFolioData = data;
+    },
+
+    getData(){
+      return this.portFolioData;
+    },
+
     viewInit(){
       var $view = $(".view");
       var $btnYear = $(".btnYear");
@@ -72,16 +76,14 @@ export default {
 
     handleClick(e){
       var btnID = parseInt($(e.target).attr("data-yearID"));
-      var data = this.portFolioData.data;
-      var arr = [];
-      for(var i=0; i< data.length; i++){
-        if(data[i].yearID === btnID){
-          arr.push(data[i])
-        }
-      }
-      this.portFolioData.data = arr;
-      this.viewInit();
-      console.log(this.portFolioData.data)
+      // this.viewInit();
+      this.$http.get('/api/data/?year='+btnID).then((result) => {
+        console.log(btnID, result)
+        this.setData(result.data);
+        $(() => {
+          this.viewInit();
+        });
+      });
     }
   },
 
