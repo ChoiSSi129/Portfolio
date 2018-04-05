@@ -9,7 +9,6 @@ function dataBind(yearID){
         year.find({},function(err, docs){
             dataObj.yearData = docs;
         });
-
         portfolio.find({},function(err, docs){
             if(!yearID || yearID === 0){
                 dataObj.data = docs;
@@ -26,7 +25,6 @@ function dataBind(yearID){
     });
 }
 
-
 router.get('/', function(req, res, next){
     var year = Number(req.query.year);
     dataBind(year).then(function(data){
@@ -34,11 +32,5 @@ router.get('/', function(req, res, next){
     });
     
 });
-
-// router.get('/:id', function(req, res, next){
-//     console.log('Request URL ID:', req.originalUrl);
-//   res.send("id");
-// });
-
 
 module.exports = router;
