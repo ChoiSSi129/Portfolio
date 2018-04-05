@@ -76,9 +76,8 @@ export default {
 
     handleClick(e){
       var btnID = parseInt($(e.target).attr("data-yearID"));
-      // this.viewInit();
       this.$http.get('/api/data/?year='+btnID).then((result) => {
-        console.log(btnID, result)
+        console.log(btnID, result);
         this.setData(result.data);
         $(() => {
           this.viewInit();
