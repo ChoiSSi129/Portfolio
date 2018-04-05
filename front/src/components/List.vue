@@ -1,5 +1,5 @@
 <template>
-  <div class="listWrap" v-bind="setComputedData">
+  <div class="listWrap">
     <div class="btnArea">
       <button type="button" class="btnYear" v-for="year in getData().yearData" :data-yearID="year.yearID" :class="[year.yearID === isYear ? activeClass : '' ]" @click="handleClick">{{year.year}}</button>
     </div>
@@ -26,15 +26,13 @@ export default {
     }
   },
 
-  computed: {
-    setComputedData(){
+  created(){
       this.$http.get('/api/data').then((result) => {
         this.setData(result.data);
         $(() => {
           this.viewInit();
         });
       });
-    }
   },
 
   methods: {
