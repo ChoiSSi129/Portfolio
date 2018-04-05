@@ -4,7 +4,7 @@ var portfolio = require('./portfolio');
 var year = require('./year');
 var dataObj = {};
 
-function dataObja(yearID){
+function dataBind(yearID){
     return new Promise(function(resolve, reject){
         year.find({},function(err, docs){
             dataObj.yearData = docs;
@@ -29,7 +29,7 @@ function dataObja(yearID){
 
 router.get('/', function(req, res, next){
     var year = Number(req.query.year);
-    dataObja(year).then(function(data){
+    dataBind(year).then(function(data){
         res.send(data);
     });
     
