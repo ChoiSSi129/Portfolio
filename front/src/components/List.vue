@@ -38,6 +38,7 @@ export default {
   methods: {
     setData(data){
       this.portFolioData = data;
+      console.log("test")
     },
 
     getData(){
